@@ -7,25 +7,30 @@ since: 2015-06-26
 """
 
 
-from requests import get, post
+from api import endpoints, get, post
 
 
 class Variant(object):
     """ A model of the variant object returned by MyVariant APIs. """
 
-    def __init__(self, **entries):
+    def __init__(self, entries):
         self.__dict__.update(entries)
 
     @staticmethod
-    def find_by(**params):
+    def find_by(query, **params):
         """ Given a set of key-value pairs, or kwargs, search for the
         desired variant(s).
         :returns variants: list of matches for the query provided.
         """
-        pass
+        params['q'] = query
+        results = get(endpoints['get-query'], params=params)
+        variants = []
+        for r in results.get('hits'):
+            variants.append(Variant(r))
+        return variants
 
     @staticmethod
-    def find_multiple_by(*batch_params):
+    def find_multiple_by(queries=[], params=[]):
         """ Given a list of key-value params. Find all of the variants
         that match any of the given criteria.
         :returns variants: list of matches for hte queries provieded.
@@ -38,14 +43,16 @@ class Variant(object):
         retrieve the given variant.
         :returns variant: a single variant object.
         """
-        pass
+        endpoint = endpoints['get-variant'].format(variant_id=variant_id)
+        print endpoint
+        return Variant(get(endpoint))
 
     @staticmethod
     def get_multiple(variant_ids):
         """ Given multiple variant IDs, retrieve all variants.
         :returns variants: list of variants with the IDs specified.
         """
-
+        pass
 
 
 

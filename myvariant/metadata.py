@@ -2,20 +2,22 @@
 
 
 import json
-from requests import get
+
+from api import get, endpoints
 
 
-class MetaData(object):
+class Metadata(object):
     """ Models the MyVariant metadata API results,
     and associated methods.
     """
 
-    def __init__(self, **entries):
-        self.__dict__update(entries)
+    def __init__(self, entries):
+        self.__dict__.update(entries)
 
     @staticmethod
     def get_metadata():
         """ Retrieves the metadata from the MyVariant API.
         :returns metadata:
         """
-
+        data = get(endpoints['get-metadata'])
+        return Metadata(data)
