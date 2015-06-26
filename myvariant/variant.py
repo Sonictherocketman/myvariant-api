@@ -30,12 +30,25 @@ class Variant(object):
         return variants
 
     @staticmethod
-    def find_multiple_by(queries=[], params=[]):
-        """ Given a list of key-value params. Find all of the variants
-        that match any of the given criteria.
+    def find_multiple_by(queries, *params_list):
+        """ Given a list of queries and key-value params.
+        Find all of the variants that match any of the given criteria.
         :returns variants: list of matches for hte queries provieded.
         """
-        pass
+        q = ','.join(queries)
+        params = {}
+        for p in params_list:
+            for key in p.keys():
+                if params.get(key) is not None:
+                    params[key] += ',{}'.format(p[key])
+                else:
+                    params[key] = str(p[key])
+        params['q'] = q
+        results = post(endpoints['post-query'], params=params)
+        variants = []
+        for r in results:
+            variants.append(Variant(r))
+        return variants
 
     @staticmethod
     def get(variant_id):
@@ -44,7 +57,6 @@ class Variant(object):
         :returns variant: a single variant object.
         """
         endpoint = endpoints['get-variant'].format(variant_id=variant_id)
-        print endpoint
         return Variant(get(endpoint))
 
     @staticmethod

@@ -15,6 +15,13 @@ class VariantTest(unittest.TestCase):
         for r in res:
             self.assertEqual(r.cadd['chrom'], 1)
 
+    def test_find_multiple_by(self):
+        rsids = ['rs58991260', 'rs2500']
+        params = {'scopes': 'dbsnp.rsid'}
+        res = Variant.find_multiple_by(rsids, params)
+        for r in res:
+            self.assertTrue(r.dbsnp['rsid'] in rsids)
+
     def test_get(self):
         res = Variant.get('chr1:g.35367G>A')
         self.assertTrue(res is not None)
