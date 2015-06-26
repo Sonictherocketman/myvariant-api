@@ -73,8 +73,8 @@ def post(endpoint, method='http', params={}):
         raise ValueError('Params must be a dictionary.')
 
     endpoint = '{method}://{endpoint}'.format(method=method, endpoint=endpoint)
-
-    r = requests.post(endpoint, params=params)
+    headers = {'content-type': 'application/x-www-form-urlencoded'}
+    r = requests.post(endpoint, params=params, headers=headers)
 
     if r.status_code == 301:
         raise ApiError('API attempted redirect. Endpoints may be outdated.')
