@@ -11,23 +11,26 @@ Install me from PyPi! `pip install myvariant-api`
 
 Find a given SNP with the rsID: rs11931074.
 
-`from myvariant.variant import Variant
+<code><pre>
+from myvariant.variant import Variant
 
 results = Variant.find_by(q='rs11931074')
 for r in result:
     print r._id, r.cadd['chrom']
 
-# chr4:g.90639515G>T, 4
-`
+# chr4:g.9069515G>T, 4
+</pre></code>
 
 *Detailed Example*
 
 Given an known variant, get it's begin and end coordinates. 
 
-`from myvariant.variant import Variant
+<code><pre>
+from myvariant.variant import Variant
 
 variant = Variant.get('chr4:g.90639515G>T')
 print variant.dbsnp['hg19']['start'], variant.dbsnp['hg19']['end']
 
 # chr4:g.90639515G>T, 90639515, 90639516
+</pre></code>
 
