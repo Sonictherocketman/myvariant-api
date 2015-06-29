@@ -29,7 +29,7 @@ Given an known variant, get it's begin and end coordinates.
 from myvariant.variant import Variant
 
 variant = Variant.get('chr4:g.90639515G>T')
-print variant.dbsnp['hg19']['start'], variant.dbsnp['hg19']['end']
+print variant._id, variant.dbsnp['hg19']['start'], variant.dbsnp['hg19']['end']
 
 >>> chr4:g.90639515G>T, 90639515, 90639516
 ```
